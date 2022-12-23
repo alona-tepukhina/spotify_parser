@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'playlist_screen.dart';
-import 'utilities/validators.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'db/sql_helper.dart';
+import 'utilities/validators.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -84,9 +84,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         label: Text('Spotify playlist url'),
                         border: OutlineInputBorder(),
                       ),
+                      // validator: (String? value) {
+                      //   if ((value == null) ||
+                      //       (value == '') ||
+                      //       (!value.isValidURL())) {
+                      //     return 'Invalid URL';
+                      //   }
+
                       validator: (String? value) {
                         if ((value == null) ||
                             (value == '') ||
+                            !((value.contains('playlist')) ||
+                                (value.contains('album'))) ||
                             (!value.isValidURL())) {
                           return 'Invalid URL';
                         }
