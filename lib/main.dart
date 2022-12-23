@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'homepage.dart';
-import 'dart:async';
-
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }

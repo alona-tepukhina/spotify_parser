@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:spotify_parser/widgets/playlist_widget.dart';
 import 'playlist_screen.dart';
 import 'utilities/validators.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'db/sql_helper.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();

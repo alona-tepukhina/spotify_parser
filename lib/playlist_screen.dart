@@ -38,8 +38,8 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       appBar: AppBar(
         leading: BackButton(
           onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => MyHomePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const MyHomePage()));
           },
         ),
       ),
