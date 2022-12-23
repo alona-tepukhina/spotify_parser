@@ -137,11 +137,12 @@ class SQLHelper {
   static Future<int> deletePlaylistWithSongs(String url) async {
     final db = await SQLHelper.db();
 
-    int count =
-        await db.rawDelete("DELETE FROM songs WHERE playlist_url LIKE '%$url%");
+    int count = await db
+        .rawDelete("DELETE FROM songs WHERE playlist_url LIKE '%$url%'");
 
     count = await db.rawDelete(
-        "DELETE FROM playlists_info WHERE playlist_url LIKE '%$url%");
+        "DELETE FROM playlists_info WHERE playlist_url LIKE '%$url%'");
+
     return count;
   }
 

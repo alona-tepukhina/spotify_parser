@@ -10,7 +10,6 @@ class NetworkRequest {
       return document;
     } else {
       print('Network error: ${response.statusCode}');
-
       return null;
     }
   }

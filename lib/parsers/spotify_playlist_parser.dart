@@ -105,7 +105,7 @@ Future<Playlist?> parseSpotifyPlaylist(String playlistUrl) async {
     }
     // }
     playlist.songCount = songCount;
-    SQLHelper.insertPlaylist(playlist!);
+    SQLHelper.insertPlaylist(playlist);
     return playlist;
   } else {
     return null;

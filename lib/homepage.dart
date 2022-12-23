@@ -36,11 +36,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void deletePlaylist(String url) async {
+    await SQLHelper.deletePlaylistWithSongs(url);
+    loadPlaylistsFromDb();
+  }
+
   @override
   void initState() {
     _playlistURLController.clear();
     loadPlaylistsFromDb();
-
     super.initState();
   }
 
@@ -59,173 +63,133 @@ class _MyHomePageState extends State<MyHomePage> {
       // ),
       body: SafeArea(
         child: Padding(
-            padding: const EdgeInsets.only(left: 4, right: 4, top: 24),
-            child: Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextFormField(
-                        controller: _playlistURLController,
-                        keyboardType: TextInputType.url,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: const InputDecoration(
-                          label: Text('Spotify playlist url'),
-                          border: OutlineInputBorder(),
+          padding: const EdgeInsets.only(left: 4, right: 4, top: 24),
+          child: Column(
+            children: [
+              const Text('Add playlist',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(
+                height: 16,
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      controller: _playlistURLController,
+                      keyboardType: TextInputType.url,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: const InputDecoration(
+                        label: Text('Spotify playlist url'),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (String? value) {
+                        if ((value == null) || (value.isEmpty)) {
+                          return 'Please enter URL';
+                        }
+                        // if ((value != null) && (value != '')) {
+                        //   if (!value.isValidURL()) {
+                        //     return 'Invalid URL';
+                        //   }
+                        // }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    ElevatedButton(
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Text(
+                          'Add playlist',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        validator: (String? value) {
-                          if ((value == null) || (value.isEmpty)) {
-                            return 'Please enter URL';
-                          }
-                          // if ((value != null) && (value != '')) {
-                          //   if (!value.isValidURL()) {
-                          //     return 'Invalid URL';
-                          //   }
-                          // }
-                          return null;
-                        },
                       ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      ElevatedButton(
-                        child: const Text('Add playlist'),
-                        onPressed: () {
-                          String url = _playlistURLController.text;
-                          // if (_formKey.currentState!.validate()) {
+                      onPressed: () {
+                        String url = _playlistURLController.text;
+                        // if (_formKey.currentState!.validate()) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PlaylistScreen(
+                                  playlistUrl: _playlistURLController.text)),
+                        );
+
+                        // }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    const Divider(),
+                    const SizedBox(height: 16),
+                    // OutlinedButton(
+                    //   onPressed: () {
+                    //     loadPlaylistsFromDb();
+                    //     loadSongsFromDb();
+                    //   },
+                    //   child: const Text('Print from db'),
+                    // ),
+                  ],
+                ),
+              ),
+              if (allPlaylists.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: allPlaylists.length,
+                    itemBuilder: (context, index) {
+                      var currentPlaylist = allPlaylists[index];
+                      return GestureDetector(
+                        onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PlaylistScreen(
-                                    playlistUrl: _playlistURLController.text)),
-                          );
-
-                          // }
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      // OutlinedButton(
-                      //   onPressed: () {
-                      //     loadPlaylistsFromDb();
-                      //     loadSongsFromDb();
-                      //   },
-                      //   child: const Text('Print from db'),
-                      // ),
-                    ],
-                  ),
-                ),
-                if (allPlaylists.isNotEmpty)
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: allPlaylists.length,
-                      itemBuilder: (context, index) {
-                        var currentPlaylist = allPlaylists[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PlaylistScreen(
-                                  playlistUrl: currentPlaylist['playlist_url'],
-                                  isPlaylistInDb: true,
-                                ),
+                              builder: (context) => PlaylistScreen(
+                                playlistUrl: currentPlaylist['playlist_url'],
+                                isPlaylistInDb: true,
                               ),
-                            );
-                          },
-                          child: Card(
-                            child: DecoratedBox(
-                              decoration:
-                                  BoxDecoration(color: Colors.grey.shade200),
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.all(0),
-                                leading: ((currentPlaylist['image_url'] !=
-                                        null))
-                                    ? CachedNetworkImage(
-                                        width: 120,
-                                        height: 72,
-                                        fit: BoxFit.cover,
-                                        imageUrl: currentPlaylist['image_url'],
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      )
-                                    : null,
-                                title: Text(
-                                  currentPlaylist['title'] ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                // trailing: IconButton(
-                                //   icon: const Icon(Icons.close),
-                                //   onPressed: () async {
-                                //     setState(() {
-                                //       SQLHelper.deletePlaylistWithSongs(
-                                //           currentPlaylist['playlist_url']);
-                                //     });
-                                //   },
-                                // ),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          child: DecoratedBox(
+                            decoration:
+                                BoxDecoration(color: Colors.grey.shade200),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(0),
+                              leading: ((currentPlaylist['image_url'] != null))
+                                  ? CachedNetworkImage(
+                                      width: 120,
+                                      height: 72,
+                                      fit: BoxFit.cover,
+                                      imageUrl: currentPlaylist['image_url'],
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    )
+                                  : null,
+                              title: Text(
+                                currentPlaylist['title'] ?? '',
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  deletePlaylist(
+                                      currentPlaylist['playlist_url']);
+                                },
                               ),
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
-                // Expanded(
-                //   child: ListView.builder(
-                //     itemCount: allPlaylists.length,
-                //     itemBuilder: (context, index) {
-                //       var currentPlaylist = allPlaylists[index];
-                //       return GestureDetector(
-                //         onTap: () {
-                //           Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //               builder: (context) => PlaylistScreen(
-                //                 playlistUrl: currentPlaylist['playlist_url'],
-                //                 isPlaylistInDb: true,
-                //               ),
-                //             ),
-                //           );
-                //         },
-                //         child: Card(
-                //           child: DecoratedBox(
-                //             decoration:
-                //                 BoxDecoration(color: Colors.grey.shade200),
-                //             child: Row(
-                //               children: [
-                //                 if (currentPlaylist['image_url'] != null)
-                //                   CachedNetworkImage(
-                //                     width: 120,
-                //                     height: 72,
-                //                     fit: BoxFit.cover,
-                //                     imageUrl: currentPlaylist['image_url'],
-                //                     errorWidget: (context, url, error) =>
-                //                         const Icon(Icons.error),
-                //                   ),
-                //                 const SizedBox(
-                //                   width: 8,
-                //                 ),
-                //                 Expanded(
-                //                   child: Text(
-                //                     currentPlaylist['title'] ?? '',
-                //                     style: const TextStyle(
-                //                         fontSize: 20,
-                //                         fontWeight: FontWeight.bold),
-                //                   ),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       );
-                //     },
-                //   ),
-                // ),
-              ],
-            )),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
