@@ -5,8 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import '/models/playlist.dart';
 import '/models/song.dart';
 
-//TODO: remake db structure (same song with different playlist_url)
-
 class SQLHelper {
   static Future<void> createTables(Database database) async {
     await database.execute(
@@ -27,34 +25,6 @@ class SQLHelper {
       'duration TEXT,'
       'playlist_url TEXT)',
     );
-
-    // database.execute(
-    //   'CREATE TABLE IF NOT EXISTS songs('
-    //   'song_url TEXT UNIQUE,'
-    //   'title TEXT,'
-    //   'artist TEXT,'
-    //   'album TEXT,'
-    //   'duration TEXT)',
-    // );
-
-    // await database.execute(
-    //   'CREATE TABLE playlists_info('
-    //       'playlist_url TEXT UNIQUE,'
-    //       'title TEXT,'
-    //       'description TEXT,'
-    //       'image_url TEXT,'
-    //       'artist TEXT)',
-    // );
-
-    // await database.execute(
-    //   'CREATE TABLE playlists_info('
-    //       'id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL'
-    //       'playlist_url TEXT,'
-    //       'title TEXT,'
-    //       'description TEXT,'
-    //       'image_url TEXT,'
-    //       'artist TEXT)',
-    // );
   }
 
   static Future<Database> db() async {
@@ -68,8 +38,6 @@ class SQLHelper {
   }
 
   static Future<int> insertPlaylist(Playlist playlist) async {
-    // static Future<void> insertPlaylist(Playlist playlist) async {
-    // Get a reference to the database.
     final db = await SQLHelper.db();
 
     final id = await db.insert(
@@ -99,7 +67,6 @@ class SQLHelper {
   static Future<List<Map<String, dynamic>>> getPlaylists() async {
     final db = await SQLHelper.db();
     return db.query('playlists_info');
-    // return db.query('playlists_info', orderBy: "id");
   }
 
   static Future<List<Map<String, dynamic>>> getSongs() async {
@@ -107,7 +74,6 @@ class SQLHelper {
     return db.query('songs');
   }
 
-// not sure if it's used
   static Future<bool> isPlaylistInDb(String url) async {
     final db = await SQLHelper.db();
     var query = await db.rawQuery(

@@ -63,12 +63,34 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final playlist = snapshot.data;
-                    // SQLHelper.insertPlaylist(playlist!);
                     return PlaylistWidget(playlist: playlist!);
                   }
               }
             },
           ),
+
+          // child: FutureBuilder<Playlist?>(
+          //   // future: getPlaylist(widget.playlistUrl),
+          //   future: (widget.isPlaylistInDb)
+          //       ? loadPlaylistFromDb()
+          //       : parseSpotifyPlaylist(widget.playlistUrl),
+          //   builder: (context, snapshot) {
+          //     switch (snapshot.connectionState) {
+          //       case ConnectionState.waiting:
+          //         return const Center(
+          //           child: CircularProgressIndicator(),
+          //         );
+          //       default:
+          //         if (snapshot.hasError) {
+          //           return Text('Error: ${snapshot.error}');
+          //         } else {
+          //           final playlist = snapshot.data;
+          //           // SQLHelper.insertPlaylist(playlist!);
+          //           return PlaylistWidget(playlist: playlist!);
+          //         }
+          //     }
+          //   },
+          // ),
 
           // child: FutureBuilder<Playlist?>(
           //   future: getPlaylist(widget.playlistUrl),
