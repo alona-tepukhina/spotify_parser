@@ -85,14 +85,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: OutlineInputBorder(),
                       ),
                       validator: (String? value) {
-                        if ((value == null) || (value.isEmpty)) {
-                          return 'Please enter URL';
+                        if ((value == null) ||
+                            (value == '') ||
+                            (!value.isValidURL())) {
+                          return 'Invalid URL';
                         }
-                        // if ((value != null) && (value != '')) {
-                        //   if (!value.isValidURL()) {
-                        //     return 'Invalid URL';
-                        //   }
-                        // }
+
                         return null;
                       },
                     ),
@@ -110,15 +108,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       onPressed: () {
                         String url = _playlistURLController.text;
-                        // if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PlaylistScreen(
-                                  playlistUrl: _playlistURLController.text)),
-                        );
-
-                        // }
+                        if (_formKey.currentState!.validate()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PlaylistScreen(
+                                    playlistUrl: _playlistURLController.text)),
+                          );
+                        }
                       },
                     ),
                     const SizedBox(height: 16),
