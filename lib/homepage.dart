@@ -18,6 +18,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, dynamic>> allPlaylists = [];
   List<Map<String, dynamic>> allSongs = [];
 
+  //static Future<bool> isPlaylistInDb(String url) async
+
   bool isLoading = true;
 
   void loadPlaylistsFromDb() async {
@@ -56,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(      
+    return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 4, right: 4, top: 24),
@@ -90,6 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               (value.contains('album'))) ||
                           (!value.isValidURL())) {
                         return 'Invalid URL';
+                      } else if (allPlaylists
+                          .any((element) => element.containsValue(value))) {
+                        return 'Playlist with this URL is already added';
                       }
                       return null;
                     },
