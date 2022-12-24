@@ -1,16 +1,7 @@
 # spotify_parser
 
-A new Flutter project.
+Flutter parser of Spotify playlists HTML
 
-## Getting Started
+![1](https://user-images.githubusercontent.com/54019003/209430788-8a6d38e9-87f9-43aa-94b4-d70fff805235.jpg)
+![2](https://user-images.githubusercontent.com/54019003/209430786-a61b225e-20bd-49de-aa94-01633bf9541d.jpg)
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
