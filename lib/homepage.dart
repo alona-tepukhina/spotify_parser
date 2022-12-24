@@ -18,8 +18,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, dynamic>> allPlaylists = [];
   List<Map<String, dynamic>> allSongs = [];
 
-  //static Future<bool> isPlaylistInDb(String url) async
-
   bool isLoading = true;
 
   void loadPlaylistsFromDb() async {
