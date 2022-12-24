@@ -13,18 +13,13 @@ class PlaylistScreen extends StatefulWidget {
 
   final String playlistUrl;
   final bool isPlaylistInDb;
-
-  //Fix playist in db coming from input on home page
-
+  
   @override
   State<PlaylistScreen> createState() => _PlaylistScreenState();
 }
 
 class _PlaylistScreenState extends State<PlaylistScreen> {
-  // Future<Playlist?> getPlaylist(String playlistUrl) {
-  //   return compute(parseSpotifyPlaylist, playlistUrl);
-  // }
-
+ 
   Playlist? currentPlaylist;
 
   Future<Playlist> loadPlaylistFromDb() async {
@@ -46,9 +41,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 4, right: 4, top: 24),
-
           child: FutureBuilder<Playlist?>(
-            // future: getPlaylist(widget.playlistUrl),
             future: (widget.isPlaylistInDb)
                 ? loadPlaylistFromDb()
                 : parseSpotifyPlaylist(widget.playlistUrl),
@@ -60,7 +53,44 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
                   );
                 default:
                   if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'An error has occured.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                              'Please check your internet connection and URL you\'ve entered.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16)),
+                          const SizedBox(height: 16),
+                          OutlinedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MyHomePage()),
+                              );
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 8),
+                              child: Text(
+                                'Back to main screen',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   } else {
                     final playlist = snapshot.data;
                     return PlaylistWidget(playlist: playlist!);
@@ -68,49 +98,6 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
               }
             },
           ),
-
-          // child: FutureBuilder<Playlist?>(
-          //   // future: getPlaylist(widget.playlistUrl),
-          //   future: (widget.isPlaylistInDb)
-          //       ? loadPlaylistFromDb()
-          //       : parseSpotifyPlaylist(widget.playlistUrl),
-          //   builder: (context, snapshot) {
-          //     switch (snapshot.connectionState) {
-          //       case ConnectionState.waiting:
-          //         return const Center(
-          //           child: CircularProgressIndicator(),
-          //         );
-          //       default:
-          //         if (snapshot.hasError) {
-          //           return Text('Error: ${snapshot.error}');
-          //         } else {
-          //           final playlist = snapshot.data;
-          //           // SQLHelper.insertPlaylist(playlist!);
-          //           return PlaylistWidget(playlist: playlist!);
-          //         }
-          //     }
-          //   },
-          // ),
-
-          // child: FutureBuilder<Playlist?>(
-          //   future: getPlaylist(widget.playlistUrl),
-          //   builder: (context, snapshot) {
-          //     switch (snapshot.connectionState) {
-          //       case ConnectionState.waiting:
-          //         return const Center(
-          //           child: CircularProgressIndicator(),
-          //         );
-          //       default:
-          //         if (snapshot.hasError) {
-          //           return Text('Error: ${snapshot.error}');
-          //         } else {
-          //           final playlist = snapshot.data;
-          //           SQLHelper.insertPlaylist(playlist!);
-          //           return PlaylistWidget(playlist: playlist!);
-          //         }
-          //     }
-          //   },
-          // ),
         ),
       ),
     );

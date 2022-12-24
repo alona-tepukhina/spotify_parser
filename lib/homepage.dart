@@ -135,7 +135,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: allPlaylists.length,
                     itemBuilder: (context, index) {
                       var currentPlaylist = allPlaylists[index];
-
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
