@@ -118,7 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => PlaylistScreen(
-                                  playlistUrl: _playlistURLController.text)),
+                                    playlistUrl: _playlistURLController.text,
+                                  )),
                         );
                       }
                     },
@@ -135,45 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: allPlaylists.length,
                     itemBuilder: (context, index) {
                       var currentPlaylist = allPlaylists[index];
-                      // return Card(
-                      //   child: ListTile(
-                      //     //dense: true,
-                      //     visualDensity: const VisualDensity(vertical: 4),
-                      //     contentPadding: const EdgeInsets.all(0),
-                      //     leading: ((currentPlaylist['image_url'] != null))
-                      //         ? CachedNetworkImage(
-                      //             width: 120,
-                      //             height: 72,
-                      //             fit: BoxFit.cover,
-                      //             imageUrl: currentPlaylist['image_url'],
-                      //             errorWidget: (context, url, error) =>
-                      //                 const Icon(Icons.error),
-                      //           )
-                      //         : null,
-                      //     title: Text(
-                      //       currentPlaylist['title'] ?? '',
-                      //       style: const TextStyle(
-                      //           fontSize: 18, fontWeight: FontWeight.bold),
-                      //     ),
-                      //     trailing: IconButton(
-                      //       icon: const Icon(Icons.close),
-                      //       onPressed: () {
-                      //         deletePlaylist(currentPlaylist['playlist_url']);
-                      //       },
-                      //     ),
-                      //     onTap: () {
-                      //       Navigator.push(
-                      //         context,
-                      //         MaterialPageRoute(
-                      //           builder: (context) => PlaylistScreen(
-                      //             playlistUrl: currentPlaylist['playlist_url'],
-                      //             isPlaylistInDb: true,
-                      //           ),
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // );
+                      
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -192,8 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 if (currentPlaylist['image_url'] != null)
                                   CachedNetworkImage(
-                                    width: 120,
-                                    height: 120,
+                                    width: 100,
+                                    height: 100,
                                     // height: 72,
                                     fit: BoxFit.cover,
                                     imageUrl: currentPlaylist['image_url'],
@@ -201,16 +164,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                         const Icon(Icons.error),
                                   ),
                                 const SizedBox(width: 16),
-                               Expanded(child:  Text(
-                                  currentPlaylist['title'] ?? '',
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),),
+                                Expanded(
+                                  child: Text(
+                                    currentPlaylist['title'] ?? '',
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
                                 const SizedBox(width: 16),
                                 IconButton(
-                                  icon: Icon(Icons.close, color: Colors.grey[500]),
+                                  icon: Icon(Icons.close,
+                                      color: Colors.grey[500]),
                                   onPressed: () {
                                     deletePlaylist(
                                         currentPlaylist['playlist_url']);

@@ -25,7 +25,6 @@ Future<Playlist?> parseSpotifyPlaylist(String playlistUrl) async {
     // String? songCountStr = parseElement('music:song_count', playlistDocument);
     // playlist.songCount = int.parse(songCountStr!) ?? 0;
 
-    // if (playlistUrl.contains('album')) {
     if (playlist.isAlbum) {
       String? artistURL = parseElement('music:musician', playlistDocument);
 
@@ -37,7 +36,6 @@ Future<Playlist?> parseSpotifyPlaylist(String playlistUrl) async {
       }
     }
 
-    // if (playlist.songCount != 0) {
     Map artistsCollection = {};
     Map albumsCollection = {};
     int songCount = 0;
@@ -103,7 +101,7 @@ Future<Playlist?> parseSpotifyPlaylist(String playlistUrl) async {
         }
       }
     }
-    // }
+
     playlist.songCount = songCount;
     SQLHelper.insertPlaylist(playlist);
     return playlist;

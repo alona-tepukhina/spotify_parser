@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '/models/playlist.dart';
@@ -58,12 +57,6 @@ class SQLHelper {
     return id;
   }
 
-  // static Future<List<Map<String, dynamic>>> getItems() async {
-  //   final db = await SQLHelper.db();
-  //   return db.query('playlists_info');
-  //   // return db.query('playlists_info', orderBy: "id");
-  // }
-
   static Future<List<Map<String, dynamic>>> getPlaylists() async {
     final db = await SQLHelper.db();
     return db.query('playlists_info');
@@ -116,9 +109,6 @@ class SQLHelper {
     final data = await SQLHelper.getPlaylistByUrl(playlistUrl);
     final songData = await SQLHelper.getPlaylistSongs(playlistUrl);
 
-    List<Map<String, dynamic>> allPlaylists = data;
-    List<Map<String, dynamic>> allSongs = songData;
-    allPlaylists = data;
     Playlist currentPlaylist = Playlist(
       playlistUrl: data[0]['playlist_url'],
       title: data[0]['title'],
@@ -140,10 +130,9 @@ class SQLHelper {
         ));
       }
     }
-
-    if (allPlaylists.length > 1) {
-      print('Error with unique playlist url');
-    }
+    // if (allPlaylists.length > 1) {
+    //   print('Error with unique playlist url');
+    // }
     return currentPlaylist;
   }
 }

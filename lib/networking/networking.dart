@@ -9,7 +9,7 @@ class NetworkRequest {
       var document = parse(response.body);
       return document;
     } else {
-      print('Network error: ${response.statusCode}');
+      // print('Network error: ${response.statusCode}');
       return null;
     }
   }
