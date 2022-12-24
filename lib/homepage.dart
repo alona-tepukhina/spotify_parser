@@ -56,11 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Playlists'),
-      //   centerTitle: true,
-      // ),
+    return Scaffold(      
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 4, right: 4, top: 24),
@@ -78,8 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   TextFormField(
                     controller: _playlistURLController,
                     keyboardType: TextInputType.url,
-                    // autovalidateMode: AutovalidateMode.onUserInteraction,
-                    autovalidateMode: AutovalidateMode.disabled,
                     showCursor: true,
                     decoration: InputDecoration(
                         label: const Text('Spotify playlist url'),
@@ -136,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     itemCount: allPlaylists.length,
                     itemBuilder: (context, index) {
                       var currentPlaylist = allPlaylists[index];
-                      
+
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -174,14 +168,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                 ),
                                 const SizedBox(width: 16),
-                                IconButton(
-                                  icon: Icon(Icons.close,
-                                      color: Colors.grey[500]),
-                                  onPressed: () {
-                                    deletePlaylist(
-                                        currentPlaylist['playlist_url']);
-                                  },
-                                ),
+                                PopupMenuButton(
+                                    icon: const Icon(Icons.more_vert),
+                                    itemBuilder: (context) {
+                                      return [
+                                        PopupMenuItem(
+                                          child: const Text('Delete playlist'),
+                                          onTap: () {
+                                            deletePlaylist(currentPlaylist[
+                                                'playlist_url']);
+                                          },
+                                        )
+                                      ];
+                                    }),
                               ]),
                         ),
                       );
