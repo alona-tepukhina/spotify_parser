@@ -44,7 +44,7 @@ class _PlaylistScreenState extends State<PlaylistScreen> {
           child: FutureBuilder<Playlist?>(
             future: (widget.isPlaylistInDb)
                 ? loadPlaylistFromDb()
-                : parseSpotifyPlaylist(widget.playlistUrl),
+                : SpotifyPlaylistParser.parseSpotifyPlaylist(widget.playlistUrl),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
